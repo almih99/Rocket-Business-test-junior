@@ -1,0 +1,251 @@
+@import url('https://fonts.googleapis.com/css?family=PT+Sans+Narrow|PT+Sans:400,700&display=swap&subset=cyrillic');
+
+-* {
+    outline: dotted 1px red;
+}
+
+/*
+font-family: 'PT Sans', sans-serif;
+font-family: 'PT Sans Narrow', sans-serif;
+*/
+
+html, body {
+    padding: 0;
+    margin: 0;
+}
+
+.header {
+    width: 1280px;
+    margin: 0; /* 0 auto;*/
+}
+
+.main-menu {
+    display: flex;
+    list-style-type: none;
+    padding: 0px;
+    padding-left: 30px;
+    margin: 0px;
+    border-bottom: solid 1px #bfbfbf;
+}
+
+.main-menu__link {
+    display: block;
+    padding: 8px 11px;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 14px;
+    color: #2a2a2a;
+    text-decoration: none;
+}
+
+.main-menu__link:hover {
+    color: #db055b;
+}
+
+.control-panel {
+    display: flex;
+    align-items: center;
+    height: 95px;
+    padding: 0 52px;
+}
+
+.control-panel__search-field {
+    margin-left: 54px;
+    width: 400px;
+    height: 50px;
+}
+
+.control-panel__work-hour {
+    margin-right: 30px;
+}
+
+.site-logo {
+    display: block;
+    width: 174px;
+    height: 64px;
+    background-image: url(img/logo.png);
+    background-repeat: no-repeat;
+}
+
+.search-field {
+    display: flex;
+    box-sizing: border-box;
+    border: solid 1px #87878a;
+    border-radius: 10px;
+}
+
+.search-field__icon {
+    display: block;
+    width: 54px;
+    height: 100%;
+    background-image: url(img/magnifer-pink.png);
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+.search-field__input {
+    flex-grow: 1;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 16px;
+    padding-left: 5px;
+    border: none;
+}
+
+.search-field__button {
+    display: block;
+    width: 54px;
+    height: 100%;
+    border: none;
+    color: transparent;
+    background: url(img/arrow.png);
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    cursor: pointer;
+}
+
+.control-panel__strut {
+    flex-grow: 1;
+}
+
+.signs-panel {
+    display: flex;
+    align-items: center;
+}
+
+.signs-panel__item {
+    padding-left: 32px;
+    height: 26px;
+    margin-left: 30px;
+    font-family: 'PT Sans', sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;
+    vertical-align: bottom;
+    color: #303030;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    
+}
+
+.signs-panel__item::before {
+    content: "";
+    display: inline-block;
+    height: 100%;
+}
+
+.signs-panel__item_muted {
+    color: #c5c5c5;
+}
+
+.signs-panel__item_type_chart {
+    background-image: url(img/chart.png);
+    padding-left: 40px;
+}
+
+.signs-panel__item_type_likes {
+    background-image: url(img/like-pink.png);
+}
+
+.signs-panel__item_type_basket {
+    background-image: url(img/basket-pink.png);
+}
+
+.work-hour__phone {
+    font-family: 'PT Sans', sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    color: #2a2a2a;
+}
+
+.work-hour__time-span {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 14px;
+    color: #434343;
+}
+
+.production-selector {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    list-style-type: none;
+    height: 52px;
+    padding: 0 40px;
+    margin: 0;
+    border-top: solid 1px #bfbfbf;
+    border-bottom: solid 1px #bfbfbf;
+}
+
+.production-selector__item {
+    border-left: solid 1px #dfdfdf;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.production-selector__item:last-child {
+    border-right: solid 1px #dfdfdf;
+}
+
+.production-selector__link {
+    display: block;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 52px;
+    text-decoration: none;
+    color: #2a2a2a;
+}
+
+.production-selector__link:hover {
+    color: #db055b;
+}
+
+.production-selector__link_main {
+    line-height: 26px;
+    background-color: #c1d1d7;
+}
+
+.production-selector__link-logo {
+    display: inline-block;
+    width: 101px;
+    height: 15px;
+    background-image: url(img/energotek-logo.png);
+}
+
+.production-selector__link_inviting {
+    background-color: #db055b;
+    color: white;
+}
+
+.production-selector__link_inviting:hover {
+    color: greenyellow;
+}
+
+.breadcramb {
+    display: flex;
+    list-style-type: none;
+    height: 44px;
+    padding: 0;
+    padding-left: 65px;
+    margin: 0;
+    border-bottom: solid 1px #bfbfbf;
+}
+
+.breadcramb__item::before {
+    content: "\2192";
+    padding: 0 8px;
+}
+
+.breadcramb__item:first-child::before {
+    content: none;
+}
+
+.breadcramb__link {
+    font-family: 'PT Sans Narrow', sans-serif;
+    font-size: 15px;
+    line-height: 48px;
+    color: #474747;
+    text-decoration: none;
+}
+
+.breadcramb__link:hover {
+    color: #db055b;
+}

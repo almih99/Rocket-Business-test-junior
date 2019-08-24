@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
+
     <header class="header">
 
         <nav class="navbar">
@@ -23,26 +24,27 @@
         </nav>
 
         <div class="control-panel">
-            <a href="#" class="site-logo"></a>
-            <div class="search-field">
+            <a href="#" class="site-logo control-panel__logo"></a>
+            <div class="search-field control-panel__search-field">
                 <div class="search-field__icon"></div>
                 <input type="text" placeholder="Поиск по товарам" class="search-field__input">
                 <input type="button" value="go" class="search-field__button">
             </div>
-            <div class="work-hour">
-                <div class="work-hour__phone">8(800)707-99-24</div>
+            <div class="control-panel__strut"></div>
+            <div class="work-hour control-panel__work-hour">
+                <div class="work-hour__phone">8 (800) 707-99-24</div>
                 <div class="work-hour__time-span">9.00 - 20.00 ежедневно</div>
             </div>
             <div class="signs-panel">
-                <div class="signs-panel__item signs-panel__item_type_chart">0</div>
-                <div class="signs-panel__item signs-panel__item_type_likes">6</div>
-                <div class="signs-panel__item signs-panel__item_type_basket">17</div>
+                <a href="#" class="signs-panel__item signs-panel__item_type_chart signs-panel__item_muted">0</a>
+                <a href="#" class="signs-panel__item signs-panel__item_type_likes">6</a>
+                <a href="#" class="signs-panel__item signs-panel__item_type_basket">17</a>
             </div>
         </div>
 
         <ul class="production-selector">
             <li class="production-selector__item">
-                <a href="#" class="production-selector__link production-selector__link_main">Продукция</a>
+                <a href="#" class="production-selector__link production-selector__link_main">Продукция<br><div class="production-selector__link-logo"></div></a>
             </li>
             <li class="production-selector__item">
                     <a href="#" class="production-selector__link">Стабилизаторы 220В</a>
@@ -75,6 +77,7 @@
             <li class="breadcramb__item"><a href="#" class="breadcramb__link">Статьи</a></li>
         </ul>
     </header>
+
     <main class="main">
         <h1 class="level-1-header">Полезная информация</h1>
 
