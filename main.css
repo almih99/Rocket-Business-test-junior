@@ -249,3 +249,70 @@ html, body {
 .breadcramb__link:hover {
     color: #db055b;
 }
+
+.main {
+    padding: 20px 40px;
+}
+
+.level-1-header {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 28px;
+
+}
+
+.main__level-1-header {
+    margin-left: 25px;
+}
+
+.pager {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.main__top-pager {
+    margin-left: 36px;
+    margin-top: 22px;
+}
+
+.pager__item {
+    display: inline-block;
+    width: 38px;
+    height: 38px;
+    margin-right: 13px;
+}
+
+.pager__link {
+    display: block;
+    width: 100%;
+    font-family:  'PT Sans', sans-serif;
+    font-size: 17px;
+    font-weight: bold;
+    line-height: 38px;
+    text-decoration: none;
+    text-align: center;
+    color: #616167;
+    border: solid 1px #bfbfbf;
+    border-radius: 3px;
+}
+
+.pager__span {
+    display: block;
+    width: 100%;
+    font-family:  'PT Sans', sans-serif;
+    font-size: 17px;
+    font-weight: bold;
+    line-height: 50px;
+    text-align: center;
+    color: #616167;
+}
+
+.pager__item_hidden {
+    display: none;
+}
+
+.pager__item_active .pager__link {
+    background-color: #db055b;
+    color: white;
+}
