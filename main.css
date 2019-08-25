@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=PT+Sans+Narrow|PT+Sans:400,700&display=swap&subset=cyrillic');
 
--* {
-    outline: dotted 1px red;
-}
-
 /*
 font-family: 'PT Sans', sans-serif;
 font-family: 'PT Sans Narrow', sans-serif;
@@ -16,7 +12,7 @@ html, body {
 
 .header {
     width: 1280px;
-    margin: 0; /* 0 auto;*/
+    margin: 0 auto;
 }
 
 .main-menu {
@@ -251,7 +247,11 @@ html, body {
 }
 
 .main {
-    padding: 20px 40px;
+    box-sizing: border-box;
+    width: 1280px;
+    margin: 0 auto;
+    padding: 20px 40px 20px 40px;
+    overflow: hidden;
 }
 
 .level-1-header {
@@ -316,3 +316,60 @@ html, body {
     background-color: #db055b;
     color: white;
 }
+
+.articles-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-top: 48px;
+}
+
+.article {
+    box-sizing: border-box;
+    position: relative;
+    padding-left: 270px;
+    padding-top: 0px;
+    margin-bottom: 50px;
+    min-height: 200px;
+    flex-basis: 570px;
+    /* outline: dotted red 1px; */
+}
+
+.article__link {
+    display: block;
+    text-decoration: none;
+}
+
+.article__image {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.article__header {
+    font-family:  'PT Sans', sans-serif;
+    font-size: 18px;
+    line-height: 20px;
+    font-weight: bold;
+    color: black;
+}
+
+.article__para {
+    font-family:  'PT Sans', sans-serif;
+    font-size: 15px;
+    color: black;
+}
+
+.main__bottom-pager {
+    margin-left: 38px;
+    margin-top: -10px;
+}
+
+
+
+
+
+
+
+
+
