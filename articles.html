@@ -12,6 +12,11 @@
     <header class="header article-page__header">
 
         <nav class="navbar">
+            <button type="button" class="main-menu__button" onclick="document.querySelector('.main-menu').classList.toggle('main-menu_expanded');">
+                <span class="main-menu__button-line">&nbsp;</span>
+                <span class="main-menu__button-line">&nbsp;</span>
+                <span class="main-menu__button-line">&nbsp;</span>
+            </button>
             <ul class="main-menu">
                 <li class="main-menu__menu-item"><a class="main-menu__link" href="#">О компании</a></li>
                 <li class="main-menu__menu-item"><a class="main-menu__link" href="#">Доставка</a></li>
@@ -21,6 +26,7 @@
                 <li class="main-menu__menu-item"><a class="main-menu__link" href="#">Статьи</a></li>
                 <li class="main-menu__menu-item"><a class="main-menu__link" href="#">Контакты</a></li>
             </ul>
+
         </nav>
 
         <div class="control-panel">
@@ -44,7 +50,7 @@
 
         <ul class="production-selector">
             <li class="production-selector__item">
-                <a href="#" class="production-selector__link production-selector__link_main">Продукция<br><div class="production-selector__link-logo"></div></a>
+                <a href="javascript:document.querySelector('.production-selector').classList.toggle('production-selector_expanded');void(0);" class="production-selector__link production-selector__link_main">Продукция<br><div class="production-selector__link-logo"></div></a>
             </li>
             <li class="production-selector__item">
                     <a href="#" class="production-selector__link">Стабилизаторы 220В</a>
@@ -78,7 +84,7 @@
         </ul>
     </header>
 
-    <main class="main article-page_main">
+    <main class="main article-page__main">
         <h1 class="level-1-header main__level-1-header">Полезная информация</h1>
 
         <ul class="pager main__top-pager">
