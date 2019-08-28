@@ -127,9 +127,10 @@ if(! $db->exec("CREATE TABLE `rocket_business_test_junior`.`articles` (
 $query=$db->prepare("INSERT INTO articles(header, text, image_url, link_url)
                      VALUES(:h, :t, :i, :l);");
 for($i=0; $i<60; $i++) {
+    $num=$i+1;
     $query->execute(
         array(
-            'h' => makeRandomString($header),
+            'h' => makeRandomString($header) . "($num)",
             't' => makeRandomString($body),
             'i' => getRandomFilename($files),
             'l' => '#'
