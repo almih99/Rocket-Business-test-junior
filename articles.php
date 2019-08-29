@@ -1,56 +1,66 @@
 <?php
 
+$baseUrl = 'articles.php';
 $page_size = 6;
 
-// conntction to db
-$db = new PDO('mysql:host=localhost;dbname=rocket_business_test_junior', 'rocketbusiness', '123654a.');
+// establish conntction to db
+$db = new PDO(  'mysql:host=localhost;dbname=rocket_business_test_junior',
+                'rocketbusiness', '123654a.');
 $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
-// amount of records
-$count = $db->query('SELECT count(*) from articles')->fetch()[0];
+// get amount of records
+$res = $db->query('SELECT count(*) from articles');
+if($count!==false) {
+    $count=$res->fetch()[0];
+} else {
+    $count=0;
+    echo "<!-- can't get amount of records in database -->";
+}
 
 // get current page
 $page = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] : 1;
 $page = max(1, $page);
 
+// inserts one pagination button with aproupriated style
+function instertPaginationItem($index, $currentPage, $maxPage) {
+    global $baseUrl;
+    $currentPageMark = ($index==$currentPage) ? 'pager__item_active' : '';
+    echo "<li class='pager__item $currentPageMark'>
+            <a href='$baseUrl?page=$index' class='pager__link'>$index</a>
+          </li>";
+}
+
+// inserts ellipses
+function insertPaginationEllepsis() {
+    echo "<li class='pager__item'>
+            <span class='pager__span'>...</span>
+          </li>";
+}
+
+// inserts pagination system in a point
 function insertPagination($currentPage, $maxPage) {
-    $baseUrl = 'articles.php';
     // list as whole
     echo "<ul class='pager main__top-pager'>";
-        // the first item - show always
-        $currentPageMark = (1==$currentPage) ? 'pager__item_active' : '';
-        echo "<li class='pager__item $currentPageMark'>
-                <a href='$baseUrl?page=1' class='pager__link'>1</a>
-            </li>";
+        instertPaginationItem(1, $currentPage, $maxPage); // the first item - show always
         // show ellipses if it is necessary
-        if($currentPage >= 4) {
-            echo "<li class='pager__item'>
-                    <span class='pager__span'>...</span>
-                </li>";
+        if($currentPage >= 4 && $maxPage > 4) {
+            insertPaginationEllepsis();
         }
-        // center items
-        for($i=2; $i<$maxPage; $i++) {
+        for($i=2; $i<$maxPage; $i++) { // center items
             if(abs($currentPage-$i)<2
-                || ($currentPage<3 && $i <= 4)
-                || ($maxPage-$currentPage<3 && $i> $maxPage-4)) {
-                $currentPageMark = ($i==$currentPage) ? 'pager__item_active' : '';
-                echo "<li class='pager__item $currentPageMark'>
-                        <a href='$baseUrl?page=$i' class='pager__link'>$i</a>
-                    </li>";
+                    || ($currentPage<3 && $i <= 4)
+                    || ($maxPage-$currentPage<3 && $i> $maxPage-4)) {
+                instertPaginationItem($i, $currentPage, $maxPage);
             }
         }
         // show ellipses if it is necessary
-        if($maxPage - $currentPage >= 3) {
-            echo "<li class='pager__item'>
-                    <span class='pager__span'>...</span>
-                </li>";
+        if($maxPage - $currentPage >= 3 && $maxPage > 4) {
+            insertPaginationEllepsis();
         }
-        // the last item - show always
-        $currentPageMark = ($maxPage==$currentPage) ? 'pager__item_active' : '';
-        echo "<li class='pager__item $currentPageMark'>
-                <a href='$baseUrl?page=$maxPage' class='pager__link'>$maxPage</a>
-            </li>";
-
+        // the last item - show always, except there is only one page
+        if($maxPage>1) {
+            instertPaginationItem($maxPage, $currentPage, $maxPage);
+        }
     echo '</ul>';
 }
 
@@ -144,25 +154,15 @@ function insertPagination($currentPage, $maxPage) {
     <main class="main article-page__main">
         <h1 class="level-1-header main__level-1-header">Полезная информация</h1>
 
-        <?php insertPagination($page, 10) ?>
-
-        <ul class="pager main__top-pager">
-            <li class="pager__item pager__item_active"><a href="#" class="pager__link">1</a></li>
-            <li class="pager__item pager__item_hidden"><span class="pager__span">...</span></li>
-            <li class="pager__item"><a href="#" class="pager__link">2</a></li>
-            <li class="pager__item"><a href="#" class="pager__link">3</a></li>
-            <li class="pager__item"><a href="#" class="pager__link">4</a></li>
-            <li class="pager__item"><span class="pager__span">...</span></li>
-            <li class="pager__item"><a href="#" class="pager__link">10</a></li>
-        </ul>
+        <?php insertPagination($page, ceil( $count / $page_size)) ?>
 
         <div class="articles-list">
 
             <?php
                 // prepare query
                 $query = $db->prepare(" SELECT `header`, `text`, `image_url`, `link_url`
-                                        FROM `articles` LIMIT 6 OFFSET :ofs");
-                if(! $query->execute(['ofs' => ($page-1) * $page_size])) {
+                                        FROM `articles` LIMIT :pagesize OFFSET :ofs");
+                if(! $query->execute(['pagesize' => $page_size,'ofs' => ($page-1) * $page_size])) {
                     $err = $query->errorInfo();
                     print_r($err);
                     die("<br>Problem with acess to database<br>");
@@ -183,15 +183,7 @@ function insertPagination($currentPage, $maxPage) {
 
         </div>
 
-        <ul class="pager main__bottom-pager">
-            <li class="pager__item pager__item_active"><a href="#" class="pager__link">1</a></li>
-            <li class="pager__item pager__item_hidden"><span class="pager__span">...</span></li>
-            <li class="pager__item"><a href="#" class="pager__link">2</a></li>
-            <li class="pager__item"><a href="#" class="pager__link">3</a></li>
-            <li class="pager__item"><a href="#" class="pager__link">4</a></li>
-            <li class="pager__item"><span class="pager__span">...</span></li>
-            <li class="pager__item"><a href="#" class="pager__link">10</a></li>
-        </ul>  
+        <?php insertPagination($page, ceil( $count / $page_size)) ?>
 
     </main>
 
