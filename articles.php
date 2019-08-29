@@ -3,24 +3,39 @@
 $baseUrl = 'articles.php';
 $page_size = 6;
 
+// db connection options on almih99.OOOwebhost.com
+// /*
+$dbname = 'id10700845_rocket_business_test_junior';
+$user = 'id10700845_rocketbusiness';
+$pwd = '123654a.';
+// */
+
+// db connection options on localhost
+/*
+$dbname = 'rocket_business_test_junior';
+$user = 'rocketbusiness';
+$pwd = '123654a.';
+*/
+
 // establish conntction to db
-$db = new PDO(  'mysql:host=localhost;dbname=rocket_business_test_junior',
-                'rocketbusiness', '123654a.');
+$db = new PDO(  "mysql:host=localhost;dbname=$dbname",
+                $user, $pwd);
 $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 // get amount of records
 $res = $db->query('SELECT count(*) from articles');
-if($count!==false) {
+if($res!==false) {
     $count=$res->fetch()[0];
 } else {
     $count=0;
-    echo "<!-- can't get amount of records in database -->";
+    echo "<br> can't get amount of records in database </br>";
 }
 
 // get current page
 $page = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] : 1;
 $page = max(1, $page);
 
+/////////////////////////////////////////////////////////////////////
 // inserts one pagination button with aproupriated style
 function instertPaginationItem($index, $currentPage, $maxPage) {
     global $baseUrl;
@@ -30,6 +45,7 @@ function instertPaginationItem($index, $currentPage, $maxPage) {
           </li>";
 }
 
+/////////////////////////////////////////////////////////////////////
 // inserts ellipses
 function insertPaginationEllepsis() {
     echo "<li class='pager__item'>
@@ -37,6 +53,7 @@ function insertPaginationEllepsis() {
           </li>";
 }
 
+/////////////////////////////////////////////////////////////////////
 // inserts pagination system in a point
 function insertPagination($currentPage, $maxPage) {
     // list as whole
@@ -62,6 +79,33 @@ function insertPagination($currentPage, $maxPage) {
             instertPaginationItem($maxPage, $currentPage, $maxPage);
         }
     echo '</ul>';
+}
+/////////////////////////////////////////////////////////////////////
+// inserts list of articles
+function insertArticles ($db, $page) {
+    global $page_size;
+    // prepare and make query
+    $query = $db->prepare(" SELECT `header`, `text`, `image_url`, `link_url`
+    FROM `articles` LIMIT :pagesize OFFSET :ofs");
+    if(! $query->execute(['pagesize' => $page_size,'ofs' => ($page-1) * $page_size])) {
+        $err = $query->errorInfo();
+        print_r($err);
+        die("<br>Problem with acess to database<br>");
+    }
+    // for each entry
+    while($entry = $query->fetch()) {
+        ?>
+        <article class="article articles-list__entry">
+            <a href="<?= $entry["link_url"] ?>" class="article__link">
+                <h2 class="article__header"><?= $entry["header"] ?></h2>
+                <img src="img/previews/<?= $entry["image_url"] ?>" alt="random image" class="article__image">
+                <div class="article__body">
+                    <p class="article__para"><?= $entry["text"] ?></p>
+                </div>
+            </a>
+        </article>
+        <?php
+    } 
 }
 
 ?>
@@ -157,30 +201,7 @@ function insertPagination($currentPage, $maxPage) {
         <?php insertPagination($page, ceil( $count / $page_size)) ?>
 
         <div class="articles-list">
-
-            <?php
-                // prepare query
-                $query = $db->prepare(" SELECT `header`, `text`, `image_url`, `link_url`
-                                        FROM `articles` LIMIT :pagesize OFFSET :ofs");
-                if(! $query->execute(['pagesize' => $page_size,'ofs' => ($page-1) * $page_size])) {
-                    $err = $query->errorInfo();
-                    print_r($err);
-                    die("<br>Problem with acess to database<br>");
-                }
-
-                while($line = $query->fetch()) { ?>
-                    <article class="article articles-list__entry">
-                        <a href="<?= $line["link_url"] ?>" class="article__link">
-                            <h2 class="article__header"><?= $line["header"] ?></h2>
-                            <img src="img/previews/<?= $line["image_url"] ?>" alt="какая-то картинка" class="article__image">
-                            <div class="article__body">
-                                <p class="article__para"><?= $line["text"] ?></p>
-                            </div>
-                        </a>
-                    </article>
-            <?php
-                } ?>
-
+            <?php insertArticles($db, $page); ?>
         </div>
 
         <?php insertPagination($page, ceil( $count / $page_size)) ?>

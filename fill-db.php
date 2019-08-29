@@ -1,4 +1,19 @@
 <?php
+
+// db connection options on almih99OOOwebhost.com
+// /*
+$dbname = 'id10700845_rocket_business_test_junior';
+$user = 'id10700845_rocketbusiness';
+$pwd = '123654a.';
+// */
+
+// db connection options on localhost
+/*
+$dbname = 'rocket_business_test_junior';
+$user = 'rocketbusiness';
+$pwd = '123654a.';
+*/
+
 // fill db with random data
 
 $header = array(
@@ -105,15 +120,10 @@ function getRandomFilename ($filelist) {
     return $filelist[array_rand($filelist)];
 }
 
-// url: localhost
-// db: rocket_business_test_junior
-// user: rocketbusiness
-// password: 123654a.
-
-$db = new PDO('mysql:host=localhost;dbname=rocket_business_test_junior', 'rocketbusiness', '123654a.');
+$db = new PDO("mysql:host=localhost;dbname=$dbname", $user, $pwd);
 
 
-if(! $db->exec("CREATE TABLE `rocket_business_test_junior`.`articles` (
+if(! $db->exec("CREATE TABLE `$dbname`.`articles` (
                     `id` INT NOT NULL AUTO_INCREMENT,
                     `header` VARCHAR(100) NOT NULL DEFAULT 'undefined',
                     `text` VARCHAR(250) NOT NULL,
@@ -138,7 +148,5 @@ for($i=0; $i<60; $i++) {
     );
 };
 
-// закрыть соединение с БД
-
-
+echo "finished";
 ?>
