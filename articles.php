@@ -9,6 +9,51 @@ $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 // amount of records
 $count = $db->query('SELECT count(*) from articles')->fetch()[0];
 
+// get current page
+$page = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] : 1;
+$page = max(1, $page);
+
+function insertPagination($currentPage, $maxPage) {
+    $baseUrl = 'articles.php';
+    // list as whole
+    echo "<ul class='pager main__top-pager'>";
+        // the first item - show always
+        $currentPageMark = (1==$currentPage) ? 'pager__item_active' : '';
+        echo "<li class='pager__item $currentPageMark'>
+                <a href='$baseUrl?page=1' class='pager__link'>1</a>
+            </li>";
+        // show ellipses if it is necessary
+        if($currentPage >= 4) {
+            echo "<li class='pager__item'>
+                    <span class='pager__span'>...</span>
+                </li>";
+        }
+        // center items
+        for($i=2; $i<$maxPage; $i++) {
+            if(abs($currentPage-$i)<2
+                || ($currentPage<3 && $i <= 4)
+                || ($maxPage-$currentPage<3 && $i> $maxPage-4)) {
+                $currentPageMark = ($i==$currentPage) ? 'pager__item_active' : '';
+                echo "<li class='pager__item $currentPageMark'>
+                        <a href='$baseUrl?page=$i' class='pager__link'>$i</a>
+                    </li>";
+            }
+        }
+        // show ellipses if it is necessary
+        if($maxPage - $currentPage >= 3) {
+            echo "<li class='pager__item'>
+                    <span class='pager__span'>...</span>
+                </li>";
+        }
+        // the last item - show always
+        $currentPageMark = ($maxPage==$currentPage) ? 'pager__item_active' : '';
+        echo "<li class='pager__item $currentPageMark'>
+                <a href='$baseUrl?page=$maxPage' class='pager__link'>$maxPage</a>
+            </li>";
+
+    echo '</ul>';
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -99,6 +144,8 @@ $count = $db->query('SELECT count(*) from articles')->fetch()[0];
     <main class="main article-page__main">
         <h1 class="level-1-header main__level-1-header">Полезная информация</h1>
 
+        <?php insertPagination($page, 10) ?>
+
         <ul class="pager main__top-pager">
             <li class="pager__item pager__item_active"><a href="#" class="pager__link">1</a></li>
             <li class="pager__item pager__item_hidden"><span class="pager__span">...</span></li>
@@ -112,9 +159,6 @@ $count = $db->query('SELECT count(*) from articles')->fetch()[0];
         <div class="articles-list">
 
             <?php
-                // get current page
-                $page = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] : 1;
-                $page = max(1, $page);
                 // prepare query
                 $query = $db->prepare(" SELECT `header`, `text`, `image_url`, `link_url`
                                         FROM `articles` LIMIT 6 OFFSET :ofs");
@@ -124,8 +168,7 @@ $count = $db->query('SELECT count(*) from articles')->fetch()[0];
                     die("<br>Problem with acess to database<br>");
                 }
 
-                while($line = $query->fetch()) {
-            ?>
+                while($line = $query->fetch()) { ?>
                     <article class="article articles-list__entry">
                         <a href="<?= $line["link_url"] ?>" class="article__link">
                             <h2 class="article__header"><?= $line["header"] ?></h2>
@@ -136,8 +179,7 @@ $count = $db->query('SELECT count(*) from articles')->fetch()[0];
                         </a>
                     </article>
             <?php
-                }
-            ?>
+                } ?>
 
         </div>
 
